@@ -127,7 +127,6 @@ main {
   cursor: pointer;
 }
 
-/* Flex container for bookshelves */
 .bookshelves {
   display: flex;
   justify-content: space-between;
@@ -171,17 +170,17 @@ p {
 }
 
 .book_shelf > .book_list > .book_item > .action > .green {
-  background-color: #2ecc71;
+  background-color: darkgreen;
   color: white;
 }
 
 .book_shelf > .book_list > .book_item > .action > .yellow {
-  background-color: #f1c40f;
+  background-color: darkgoldenrod;
   color: white;
 }
 
 .book_shelf > .book_list > .book_item > .action > .red {
-  background-color: #e74c3c;
+  background-color: darkred;
   color: white;
 }
 
@@ -244,7 +243,6 @@ small {
   border: 1px solid #ecf0f1 !important;
 }
 
-/* Additional styles for responsiveness */
 @media (max-width: 768px) {
   .bookshelves {
     flex-direction: column;

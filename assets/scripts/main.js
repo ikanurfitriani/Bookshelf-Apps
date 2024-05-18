@@ -1,4 +1,4 @@
-const localStorageKey = "BOOKS_DATA"
+const localStorageKey = "BOOKSHELF_DATA"
 
 const title = document.querySelector("#inputBookTitle")
 const errorTitle = document.querySelector("#errorTitle")
@@ -51,7 +51,7 @@ btnSearch.addEventListener("click",function(e) {
             if (getByAuthor.length == 0) {
                 const getByYear = getData().filter(a => a.year == searchValue.value.trim());
                 if (getByYear.length == 0) {
-                    alert(`Tidak ditemukan data dengan kata kunci: ${searchValue.value}`)
+                    alert(`Tidak ditemukan data buku dengan kata kunci: ${searchValue.value}`)
                 }else{
                     showSearchResult(getByYear);
                 }
@@ -198,9 +198,9 @@ function showData(books = []) {
                 <p>Tahun: ${book.year}</p>
 
                 <div class="action">
-                    <button class="green" onclick="readedBook('${book.id}')">Selesai dibaca</button>
+                    <button class="green" onclick="readedBook('${book.id}')">Selesai Dibaca</button>
                     <button class="yellow" onclick="editBook('${book.id}')">Edit Buku</button>
-                    <button class="red" onclick="deleteBook('${book.id}')">Hapus buku</button>
+                    <button class="red" onclick="deleteBook('${book.id}')">Hapus Buku</button>
                 </div>
             </article>
             `
@@ -214,9 +214,9 @@ function showData(books = []) {
                 <p>Tahun: ${book.year}</p>
 
                 <div class="action">
-                    <button class="green" onclick="unreadedBook('${book.id}')">Belum selesai di Baca</button>
+                    <button class="green" onclick="unreadedBook('${book.id}')">Belum Selesai Dibaca</button>
                     <button class="yellow" onclick="editBook('${book.id}')">Edit Buku</button>
-                    <button class="red" onclick="deleteBook('${book.id}')">Hapus buku</button>
+                    <button class="red" onclick="deleteBook('${book.id}')">Hapus Buku</button>
                 </div>
             </article>
             `
@@ -226,9 +226,11 @@ function showData(books = []) {
 }
 
 function showSearchResult(books) {
-    const searchResult = document.querySelector("#searchResult")
+    const incompleteBookshelfList = document.querySelector("#incompleteBookshelfList")
+    const completeBookshelfList = document.querySelector("#completeBookshelfList")
 
-    searchResult.innerHTML = ''
+    incompleteBookshelfList.innerHTML = ''
+    completeBookshelfList.innerHTML = ''
 
     books.forEach(book => {
         let el = `
@@ -236,16 +238,25 @@ function showSearchResult(books) {
             <h3>${book.title}</h3>
             <p>Penulis: ${book.author}</p>
             <p>Tahun: ${book.year}</p>
-            <p>${book.isCompleted ? 'Sudah dibaca' : 'Belum dibaca'}</p>
+
+            <div class="action">
+                <button class="green" onclick="unreadedBook('${book.id}')">Belum Selesai Dibaca</button>
+                <button class="yellow" onclick="editBook('${book.id}')">Edit Buku</button>
+                <button class="red" onclick="deleteBook('${book.id}')">Hapus Buku</button>
+            </div>
         </article>
         `
 
-        searchResult.innerHTML += el
+        if (book.isCompleted) {
+            completeBookshelfList.innerHTML += el
+        } else {
+            incompleteBookshelfList.innerHTML += el
+        }
     });
 }
 
 function readedBook(id) {
-    let confirmation = confirm("Pindahkan ke Selesai dibaca?")
+    let confirmation = confirm("Pindahkan Buku ke Rak Selesai Dibaca?")
 
     if (confirmation == true) {
         const bookDataDetail = getData().filter(a => a.id == id);
@@ -267,7 +278,7 @@ function readedBook(id) {
 }
 
 function unreadedBook(id) {
-    let confirmation = confirm("Pindahkan ke Belum selesai dibaca?")
+    let confirmation = confirm("Pindahkan Buku ke Rak Belum Selesai Dibaca?")
 
     if (confirmation == true) {
         const bookDataDetail = getData().filter(a => a.id == id);
@@ -295,7 +306,7 @@ function editBook(id) {
     year.value = bookDataDetail[0].year
     bookDataDetail[0].isCompleted ? readed.checked = true:readed.checked = false
 
-    btnSubmit.innerHTML = "Edit buku"
+    btnSubmit.innerHTML = "Edit Buku"
     btnSubmit.value = bookDataDetail[0].id
 }
 
@@ -312,3 +323,7 @@ function deleteBook(id) {
         return 0
     }
 }
+
+document.body.addEventListener("contextmenu", function(event) {
+    event.preventDefault();
+});
