@@ -106,8 +106,8 @@ btnSubmit.addEventListener("click", function() {
                 id: +new Date(),
                 title: title.value.trim(),
                 author: author.value.trim(),
-                year: year.value,
-                isCompleted: readed.checked
+                year: parseInt(year.value),
+                isComplete: readed.checked
             }
             insertData(newBook)
 
@@ -124,8 +124,8 @@ btnSubmit.addEventListener("click", function() {
             id: btnSubmit.value,
             title: title.value.trim(),
             author: author.value.trim(),
-            year: year.value,
-            isCompleted: readed.checked
+            year: parseInt(year.value),
+            isComplete: readed.checked
         }
         insertData(newBook)
         btnSubmit.innerHTML = "Masukkan Buku"
@@ -190,7 +190,7 @@ function showData(books = []) {
     completed.innerHTML = ''
 
     books.forEach(book => {
-        if (book.isCompleted == false) {
+        if (book.isComplete == false) {
             let el = `
             <article class="book_item">
                 <h3>${book.title}</h3>
@@ -247,7 +247,7 @@ function showSearchResult(books) {
         </article>
         `
 
-        if (book.isCompleted) {
+        if (book.isComplete) {
             completeBookshelfList.innerHTML += el
         } else {
             incompleteBookshelfList.innerHTML += el
@@ -265,7 +265,7 @@ function readedBook(id) {
             title: bookDataDetail[0].title,
             author: bookDataDetail[0].author,
             year: bookDataDetail[0].year,
-            isCompleted: true
+            isComplete: true
         }
 
         const bookData = getData().filter(a => a.id != id);
@@ -287,7 +287,7 @@ function unreadedBook(id) {
             title: bookDataDetail[0].title,
             author: bookDataDetail[0].author,
             year: bookDataDetail[0].year,
-            isCompleted: false
+            isComplete: false
         }
 
         const bookData = getData().filter(a => a.id != id);
@@ -304,7 +304,7 @@ function editBook(id) {
     title.value = bookDataDetail[0].title
     author.value = bookDataDetail[0].author
     year.value = bookDataDetail[0].year
-    bookDataDetail[0].isCompleted ? readed.checked = true:readed.checked = false
+    bookDataDetail[0].isComplete ? readed.checked = true:readed.checked = false
 
     btnSubmit.innerHTML = "Edit Buku"
     btnSubmit.value = bookDataDetail[0].id
